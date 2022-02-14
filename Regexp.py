@@ -66,7 +66,7 @@ for i in contacts_list:
         surname_list.append("")
     m += 1
 
-new_contacts_list = list(zip(lastname_list, firstname_list, surname_list, organization_list, phone_list, email_list))
+new_contacts_list = list(zip(lastname_list, firstname_list, surname_list, organization_list, position_list, phone_list, email_list))
 
 #ищем дубли
 counter = {}
@@ -82,13 +82,16 @@ dict = {}
 position = []
 for k in duplicates.keys():
     test = []
-    for i in new_contacts_list:
+    for i in sorted(new_contacts_list, reverse=True):
         if k in i[0]:
             for z in i:
                 if z not in test:
                     test.append(z)
             position.append(new_contacts_list.index(i))
+
     new_contacts_list.append(tuple(test))
+
+# pprint(new_contacts_list)
 
 # удаляем дубли
 q = sorted(position, reverse=True)
@@ -97,18 +100,16 @@ for d in q:
 
 all_new_contacts = []
 
+
 for i in new_contacts_list:
     if i == new_contacts_list[5]:
         f = list(i)
-        f.pop(5)
-        print(f)
+        # f.pop(5)
         all_new_contacts.append(f)
     else:
         all_new_contacts.append(i)
 
 
-
-pprint(all_new_contacts)
 
 with open("venv/Regexp/phonebook.csv", "w") as f:
   datawriter = csv.writer(f, delimiter=',')
